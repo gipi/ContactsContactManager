@@ -31,6 +31,7 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 	private final int ID_CONTACTS = 0;
 	private final int ID_GROUPS   = 1;
 	private final int ID_RAW_CONTACTS   = 2;
+	private final int ID_DATA   = 3;
 
 	private int mID;
 
@@ -39,6 +40,7 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 	private SimpleCursorAdapter mContactsAdapter;
 	private SimpleCursorAdapter mGroupsAdapter;
 	private SimpleCursorAdapter mRawContactsAdapter;
+	private SimpleCursorAdapter mDataContactsAdapter;
 
     /** Called when the activity is first created. */
 	@Override
@@ -86,6 +88,19 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 				android.R.id.text2
 			});
 
+		mDataContactsAdapter = new SimpleCursorAdapter(
+			this,
+			android.R.layout.simple_list_item_2,
+			null,
+			new String[] {
+				ContactsContract.RawContacts.Data.MIMETYPE,
+				ContactsContract.RawContacts.Data.DATA1
+			},
+			new int[] {
+				android.R.id.text1,
+				android.R.id.text2
+			});
+
 		mListView = (ListView)findViewById(android.R.id.list);
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(findViewById(android.R.id.empty));
@@ -96,7 +111,8 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 				new String[] {
 					"Contacts",
 			     "Groups",
-			     "Raw"
+			     "Raw",
+			     "RawData"
 				});
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,6 +133,7 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 		getSupportLoaderManager().initLoader(ID_CONTACTS, null, this);
 		getSupportLoaderManager().initLoader(ID_GROUPS, null, this);
 		getSupportLoaderManager().initLoader(ID_RAW_CONTACTS, null, this);
+		getSupportLoaderManager().initLoader(ID_DATA, null, this);
 	}
     
 	/**
@@ -133,6 +150,9 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 				break;
 			case ID_RAW_CONTACTS:
 				mAdapter = mRawContactsAdapter;
+				break;
+			case ID_DATA:
+				mAdapter = mDataContactsAdapter;
 				break;
 			default:
 				android.util.Log.i("@@@@", "no id");
@@ -177,12 +197,23 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 					null  // ORDER BY
 					);
 				break;
+			case ID_DATA:
+				cl = new CursorLoader(
+					this,
+					ContactsContract.Data.CONTENT_URI, // Uri
+					null, // COLUMNS
+					null, // WHERE
+					null, // WHERE ARGS
+					null  // ORDER BY
+					);
+				break;
 		}
 
 		return cl;
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		// TODO: use an Array
 		switch (loader.getId()) {
 			case ID_CONTACTS:
 				mContactsAdapter.swapCursor(cursor);
@@ -192,6 +223,9 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 				break;
 			case ID_RAW_CONTACTS:
 				mRawContactsAdapter.swapCursor(cursor);
+				break;
+			case ID_DATA:
+				mDataContactsAdapter.swapCursor(cursor);
 				break;
 		}
 	}
