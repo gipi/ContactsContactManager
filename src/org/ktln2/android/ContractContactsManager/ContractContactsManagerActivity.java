@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
@@ -28,6 +29,7 @@ import android.support.v4.app.FragmentActivity;
  * @author gipi <gp@ktln2.org>
  */
 public class ContractContactsManagerActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+	private final String TAG = "ContractContactsManagerActivity";
 	private final int ID_CONTACTS = 0;
 	private final int ID_GROUPS   = 1;
 	private final int ID_RAW_CONTACTS   = 2;
@@ -51,57 +53,58 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 		// Create an empty adapter we will use to display the loaded data.
 		mContactsAdapter = new SimpleCursorAdapter(
 				this,
-				android.R.layout.simple_list_item_2,
+				R.layout.list_item_checkable,
 				null,
 				new String[] {
 					ContactsContract.Contacts.DISPLAY_NAME,
 					ContactsContract.Contacts.CONTACT_STATUS
 				},
 				new int[] {
-					android.R.id.text1,
-					android.R.id.text2
+					R.id.text1,
+					R.id.text2
 				});
 
 		mGroupsAdapter = new SimpleCursorAdapter(
         		this,
-			android.R.layout.simple_list_item_2,
+			R.layout.list_item_checkable,
 			null,
 			new String[] {
 				ContactsContract.Groups.TITLE,
 				ContactsContract.Groups.ACCOUNT_NAME
 			},
 			new int[] {
-        			android.R.id.text1,
-        			android.R.id.text2
+				R.id.text1,
+				R.id.text2
         		});
 
 		mRawContactsAdapter = new SimpleCursorAdapter(
 			this,
-			android.R.layout.simple_list_item_2,
+			R.layout.list_item_checkable,
 			null,
 			new String[] {
 				ContactsContract.RawContacts.ACCOUNT_TYPE,
 				ContactsContract.RawContacts.ACCOUNT_NAME
 			},
 			new int[] {
-				android.R.id.text1,
-				android.R.id.text2
+				R.id.text1,
+				R.id.text2
 			});
 
 		mDataContactsAdapter = new SimpleCursorAdapter(
 			this,
-			android.R.layout.simple_list_item_2,
+			R.layout.list_item_checkable,
 			null,
 			new String[] {
 				ContactsContract.RawContacts.Data.MIMETYPE,
 				ContactsContract.RawContacts.Data.DATA1
 			},
 			new int[] {
-				android.R.id.text1,
-				android.R.id.text2
+				R.id.text1,
+				R.id.text2
 			});
 
 		mListView = (ListView)findViewById(android.R.id.list);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(findViewById(android.R.id.empty));
 
