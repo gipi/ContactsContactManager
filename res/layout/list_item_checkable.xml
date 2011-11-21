@@ -10,7 +10,6 @@
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-		android:checked="true"
 	/>
 	<TextView
 		android:id="@+id/text2"

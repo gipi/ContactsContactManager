@@ -46,7 +46,6 @@ public class CheckedLinearLayout extends LinearLayout implements Checkable {
 	@Override
 	public void setChecked(boolean checked) {
 		mCheckedTextView = (CheckedTextView)findViewById(R.id.text1);
-		android.util.Log.i(TAG, "checked: " + checked);
 		mCheckedTextView.setChecked(checked);
 	}
 
