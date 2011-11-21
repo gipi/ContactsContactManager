@@ -16,6 +16,8 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.app.FragmentActivity;
 
+import android.net.Uri;
+
 // TODO: http://thinkandroid.wordpress.com/2010/01/13/writing-your-own-contentprovider/
 
 
@@ -43,6 +45,16 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 	private SimpleCursorAdapter mGroupsAdapter;
 	private SimpleCursorAdapter mRawContactsAdapter;
 	private SimpleCursorAdapter mDataContactsAdapter;
+
+	/*
+	 * TODO: create arrays
+	 */
+	private Uri[] URIs = new Uri[] {
+		ContactsContract.Contacts.CONTENT_URI,
+		ContactsContract.Groups.CONTENT_URI,
+		ContactsContract.RawContacts.CONTENT_URI,
+		ContactsContract.Data.CONTENT_URI,
+	};
 
     /** Called when the activity is first created. */
 	@Override
@@ -148,6 +160,17 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 		getSupportLoaderManager().initLoader(ID_GROUPS, null, this);
 		getSupportLoaderManager().initLoader(ID_RAW_CONTACTS, null, this);
 		getSupportLoaderManager().initLoader(ID_DATA, null, this);
+	}
+
+	public void doDelete(View view) {
+		long[] ids = mListView.getCheckedItemIds();
+
+		for (long id : ids) {
+			android.util.Log.i(TAG, "deleting " + URIs[mID]+ " id: " + id);
+			int nDeleted = getContentResolver().delete(URIs[mID], "_id = '" + id + "'", null);
+			android.util.Log.i(TAG, "deleted: " + nDeleted);
+		}
+
 	}
     
 	/**
