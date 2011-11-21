@@ -1,0 +1,19 @@
+Download
+
+DEPENDENCIES
+------------
+
+Compatibility package version 4: copy it from the SDK directory
+
+ $ cp <android-sdk-linux_x86 path>/extras/android/compatibility/v4/android-support-v4.jar libs/
+
+COMPILING
+---------
+
+Create a local.properties file
+
+ $ android update project -p .
+
+and finally compile and install
+
+ $ ant debug && ant installd
