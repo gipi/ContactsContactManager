@@ -1,4 +1,6 @@
-Download
+Download from github
+
+ $ git clone https://github.com/gipi/ContactsContactManager.git
 
 DEPENDENCIES
 ------------
@@ -10,7 +12,7 @@ Compatibility package version 4: copy it from the SDK directory
 COMPILING
 ---------
 
-Create a local.properties file
+Enter into the root directory of the project, create a local.properties file
 
  $ android update project -p .
 
