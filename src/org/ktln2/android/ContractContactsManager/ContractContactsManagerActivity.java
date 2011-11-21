@@ -108,6 +108,17 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(findViewById(android.R.id.empty));
 
+		/*
+		 * Some problems in trying to make the checkboxes work
+		 *
+		 * http://stackoverflow.com/questions/2679948/focusable-edittext-inside-listview
+		 */
+		mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				android.util.Log.i(TAG, "position: " + position);
+				//((CheckedTextView)view.findViewById(R.id.text1)).toggle();
+			}
+		});
 		// set spinner in order to select type of provider
 		Spinner spinner = (Spinner)findViewById(R.id.typeSpinner);
 		ArrayAdapter aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.text1,

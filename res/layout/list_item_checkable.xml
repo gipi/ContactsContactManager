@@ -3,7 +3,6 @@
 	android:layout_width="match_parent"
 	android:layout_height="?android:attr/listPreferredItemHeight"
 	android:orientation="vertical"
-		android:clickable="true"
 	>
 	<CheckedTextView
 		android:id="@+id/text1"
@@ -11,8 +10,6 @@
 		android:layout_height="wrap_content"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-		android:clickable="true"
-		android:focusable="true"
 		android:checked="true"
 	/>
 	<TextView
