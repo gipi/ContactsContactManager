@@ -219,7 +219,16 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 					    this,
 					    ContactsContract.Groups.CONTENT_URI, // Uri
 					    null, // COLUMNS
-					    null, // WHERE
+					    /*
+					     * http://developer.android.com/reference/android/provider/ContactsContract.Groups.html
+					     *
+					     * The "deleted" flag: "0" by default, "1" if the row has been marked
+					     * for deletion. When delete(Uri, String, String[]) is called on a group,
+					     * it is marked for deletion. The sync adaptor deletes the group on the
+					     * server and then calls ContactResolver.delete once more, this time
+					     * setting the the CALLER_IS_SYNCADAPTER query parameter to finalize the data removal.
+					     */
+					    ContactsContract.Groups.DELETED + "= 0", // WHERE
 					    null, // WHERE ARGS
 					    ContactsContract.Groups.TITLE  // ORDER BY
 					    );
@@ -229,7 +238,26 @@ public class ContractContactsManagerActivity extends FragmentActivity implements
 					this,
 					ContactsContract.RawContacts.CONTENT_URI, // Uri
 					null, // COLUMNS
-					null, // WHERE
+					/*
+					 * http://developer.android.com/reference/android/provider/ContactsContract.RawContacts.html
+					 *
+					 * When a raw contact is deleted, all of its Data rows as well as StatusUpdates,
+					 * AggregationExceptions, PhoneLookup rows are deleted automatically. When all
+					 * raw contacts associated with a Contacts row are deleted, the Contacts row itself
+					 * is also deleted automatically.
+					 *
+					 * The invocation of resolver.delete(...), does not immediately delete a raw contacts
+					 * row. Instead, it sets the DELETED flag on the raw contact and removes the raw
+					 * contact from its aggregate contact. The sync adapter then deletes the raw contact
+					 * from the server and finalizes phone-side deletion by calling resolver.delete(...)
+					 * again and passing the CALLER_IS_SYNCADAPTER query parameter.
+					 *
+					 * Some sync adapters are read-only, meaning that they only sync server-side changes to
+					 * the phone, but not the reverse. If one of those raw contacts is marked for deletion,
+					 * it will remain on the phone. However it will be effectively invisible, because it will
+					 * not be part of any aggregate contact. 
+					 */
+					ContactsContract.RawContacts.DELETED + "= 0", // WHERE
 					null, // WHERE ARGS
 					null  // ORDER BY
 					);
